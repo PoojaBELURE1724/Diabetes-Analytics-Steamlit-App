@@ -6,16 +6,11 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🏥 Diabetes Analytics System")
+st.title("🏥 Diabetes Analytics System - By Team 6")
 
 st.markdown("""
 Welcome to the Diabetes Analytics Platform.
+This dataset focuses on 25  patients with Type 1 Diabetes Mellitus (T1DM) and contains continuous health monitoring data collected from wearable-device sources. The dataset includes glucose readings, insulin delivery information (basal and bolus rates), heart rate, physical activity (step counts), sleep patterns, demographic information, and other physiological markers.
 
-Use the sidebar to navigate between pages:
-- Dashboard
-- Demographic glucose categories and risks
-- Sleep related parameters effect on glucose
-- Bolus volume vs glucose
-- Correlation metrics
-- conclusion
+Use the sidebar to navigate between pages.
 """)
