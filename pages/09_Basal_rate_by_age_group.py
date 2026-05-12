@@ -60,3 +60,17 @@ plt.tight_layout()
 # STREAMLIT OUTPUT
 # =========================
 st.pyplot(fig, use_container_width=True)
+
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
+
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>The 40–50 age group requires the highest basal insulin rate (0.08 units/hr) — significantly higher than all other groups — suggesting greater insulin resistance or more complex glucose management needs in mid-adulthood. Basal rates decline steadily from 50 onwards, dropping to just 0.03 units/hr in the 60–80 age groups, which may reflect reduced metabolic activity, lower body weight, or more conservative insulin management in older T1DM patients.
+</p>
+""", unsafe_allow_html=True)
+

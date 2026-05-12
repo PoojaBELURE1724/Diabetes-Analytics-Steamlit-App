@@ -145,6 +145,17 @@ with center:
         plt.tight_layout()
 
         st.pyplot(fig, use_container_width=False)
+# ---------------------------------------------------------
+# CONCLUSION SECTION
+# ---------------------------------------------------------
+
+st.markdown("---")
+
+st.subheader("📌 Key Insights")
+
+st.markdown("""- The dataset includes 25 T1DM patients with an overall average glucose level of 141.4 mg/dL.
+- Nearly 75% of patients fall into the High or Very High glucose categories, indicating widespread hyperglycemia.
+""")
 
 # ---------------------------------------------------------
 # DATA TABLE

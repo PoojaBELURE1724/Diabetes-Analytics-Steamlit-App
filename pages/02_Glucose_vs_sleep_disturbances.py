@@ -171,7 +171,21 @@ with st.container(border=True):
     plt.tight_layout(pad=0.5)
 
     st.pyplot(fig)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
 
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>
+There's no clear positive correlation between glucose and sleep disturbance here.
+- The 21–40 group has peak glucose but mid-rang sleep disturbance, while the 0–20 group has the most disrupted sleep but moderate glucose.
+- The 41–60 group is interesting — both glucose and sleep disturbance are at relatively low points, possibly suggesting a healthier cohort in that bracket.
+</p>
+""", unsafe_allow_html=True)
 # ---------------------------------------------------------
 # OPTIONAL TABLE
 # ---------------------------------------------------------

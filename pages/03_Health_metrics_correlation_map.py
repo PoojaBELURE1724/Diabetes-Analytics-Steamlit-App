@@ -69,7 +69,20 @@ with col2:
     plt.tight_layout()
 
     st.pyplot(fig, use_container_width=True)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
 
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>
+There is strong relationship between heartrate, steps and calories, However, weak relationship between Glucose with all variables Glucose has very weak correlation with: Steps (0.05) Calories (0.008) Heart rate (0.09) Sleep quality (-0.08)
+Glucose is not strongly influenced by single lifestyle variables alone.
+</p>
+""", unsafe_allow_html=True)
 # ---------------------------------------------------------
 # OPTIONAL TABLE
 # ---------------------------------------------------------

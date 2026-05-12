@@ -111,6 +111,18 @@ with st.container(border=True):
     plt.tight_layout()
 
     st.pyplot(fig, use_container_width=True)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
+
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>Patient HUPA0027P recorded 920 high-risk events — far exceeding all other patients — making them an immediate priority for a revised exercise-management plan and a prime candidate for real-time wearable alerts that trigger when heart rate spikes alongside dropping glucose. Analysing the data leading up to these events can reveal predictable patterns such as missed meals or excess pre-exercise insulin, turning this flagging logic into a blueprint for preventing activity-induced hypoglycemic emergencies before they happen.
+</p>
+""", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # TABLE

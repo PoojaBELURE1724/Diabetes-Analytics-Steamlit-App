@@ -142,6 +142,18 @@ with center:
         plt.tight_layout()
 
         st.pyplot(fig, use_container_width=True)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
+
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>Hispanic females aged 51–65 carry the highest risk score (3.38) in the entire matrix, followed by White males in the same age group (3.21) and Other females (3.17), making the 51–65 bracket the most at-risk age window across demographics. Hispanic males aged 36–50 show the lowest risk (2.15), while younger age groups (19–35) generally cluster in the moderate range — suggesting that diabetes-related risk intensifies significantly in middle to late adulthood regardless of race or gender.
+</p>
+""", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # DATA TABLE

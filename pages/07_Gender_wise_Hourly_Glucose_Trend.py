@@ -113,6 +113,18 @@ with st.container(border=True):
     plt.tight_layout()
 
     st.pyplot(fig, use_container_width=True)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
+
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>Males consistently run 10–20 mg/dL higher than females throughout the day, with a sharp late-night spike peaking at ~175 mg/dL around hour 22, likely reflectin…Males consistently run 10–20 mg/dL higher than females throughout the day, with a sharp late-night spike peaking at ~175 mg/dL around hour 22, likely reflecting evening meals or reduced night-time insulin sensitivity. Females maintain a steadier trajectory, dipping to their lowest point (~124 mg/dL) at midday and remaining stable in the evening — in contrast to the dramatic male surge after hour 20.
+</p>
+""", unsafe_allow_html=True)
 
 # =========================================================
 # DATA VIEW

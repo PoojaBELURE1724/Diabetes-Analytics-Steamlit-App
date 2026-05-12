@@ -169,7 +169,19 @@ with st.container(border=True):
     plt.tight_layout()
 
     st.pyplot(fig, use_container_width=True)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
 
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>
+The 31–45 age group shows the highest glucose volatility with a sharp evening spike (~200 mg/dL), while the 46–60 group maintains the most stable control with the lowest overall levels. Across all age groups, midday (12–15hr) is a consistent dip window, with evening hours showing the greatest variability — particularly in middle-aged patients.
+</p>
+""", unsafe_allow_html=True)
 # =========================================================
 # DATA VIEW
 # =========================================================

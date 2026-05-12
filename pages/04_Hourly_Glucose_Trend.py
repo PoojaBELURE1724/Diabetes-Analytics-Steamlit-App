@@ -59,3 +59,16 @@ plt.tight_layout()
 # STREAMLIT RENDER
 # =========================
 st.pyplot(fig, use_container_width=True)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
+
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>
+Glucose levels peak during the evening hours between 7 PM and 10 PM, reaching up to 152.6 mg/dL.
+</p>
+""", unsafe_allow_html=True)

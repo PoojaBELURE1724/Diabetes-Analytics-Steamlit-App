@@ -148,7 +148,18 @@ with st.container(border=True):
     plt.tight_layout()
 
     st.pyplot(fig, use_container_width=True)
+# ---------------------------------------------------------
+# SMALL CONCLUSION SECTION
+# ---------------------------------------------------------
 
+st.markdown("---")
+
+st.markdown("""
+<h5>📌Key Insights</h5>
+
+<p style='font-size:14px;'>White and Hispanic patients show the highest glucose volatility — White peaking above 220 mg/dL in the morning and Hispanic surging to ~210 mg/dL late evening — while Black patients maintain the lowest and most stable range (~120–145 mg/dL) throughout the day. Across all racial groups, midday to late afternoon (12–16hr) is the most unstable window, with Asian and Native American patients showing moderate fluctuations in between.
+</p>
+""", unsafe_allow_html=True)
 # =========================================================
 # DATA VIEW
 # =========================================================
