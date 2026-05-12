@@ -2,87 +2,121 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.title("🩺 Diagnostic: Insuline resi")
-
 # =========================
-# LOAD DATA
+# PAGE CONFIG
 # =========================
-df = pd.read_excel("Team6_DataDynamos_Python-Hackathon_MAY2026_V2.xlsx")
-
-# =========================
-# AGE GROUP CREATION
-# =========================
-df['age_group'] = pd.cut(
-    df['age'],
-    bins=[20, 30, 40, 50, 60, 70, 80],
-    labels=['20-30', '30-40', '40-50', '50-60', '60-70', '70-80']
+st.set_page_config(
+    page_title="Insulin Resistance Dashboard",
+    layout="wide"
 )
 
-# Define age category (✔ encoding logic)
-df['age_category'] = df['age'].apply(
-    lambda x: 'Younger' if x < 50 else 'Older'
-)
+st.title("🩺 Diagnostic: Insulin Resistance")
 
 # =========================
-# AGGREGATION
+# FAST DATA LOADING (IMPORTANT FIX)
 # =========================
-basal_avg = df.groupby(['age_group', 'age_category'])['basal_rate'].mean().reset_index()
+@st.cache_data
+def load_data():
+    df = pd.read_excel(
+        "Team6_DataDynamos_Python-Hackathon_MAY2026_V2.xlsx"
+    )
 
-# Pivot for plotting
-pivot_df = basal_avg.pivot(index='age_group', columns='age_category', values='basal_rate')
+    # Precompute age group once (FAST FIX)
+    df['age_group'] = pd.cut(
+        df['age'],
+        bins=[20, 30, 40, 50, 60, 70, 80],
+        labels=['20-30', '30-40', '40-50', '50-60', '60-70', '70-80']
+    )
+
+    df['age_category'] = df['age'].apply(
+        lambda x: 'Younger' if x < 50 else 'Older'
+    )
+
+    return df
+
+df = load_data()
 
 # =========================
-# PLOT
+# FAST PRECOMPUTED AGGREGATION
 # =========================
-fig, ax = plt.subplots(figsize=(9, 5))
+@st.cache_data
+def compute_data(df):
+    basal_avg = (
+        df.groupby(['age_group', 'age_category'])['basal_rate']
+        .mean()
+        .reset_index()
+    )
+
+    pivot_df = basal_avg.pivot(
+        index='age_group',
+        columns='age_category',
+        values='basal_rate'
+    )
+
+    return pivot_df
+
+pivot_df = compute_data(df)
+
+# =========================
+# PLOT (OPTIMIZED)
+# =========================
+fig, ax = plt.subplots(figsize=(8, 4))  # smaller = faster
 
 colors = {
-    'Younger': '#34c759',  # green
-    'Older': '#007aff'     # blue
+    'Younger': '#34c759',
+    'Older': '#007aff'
 }
 
 x = range(len(pivot_df.index))
-
 width = 0.35
 
 # Younger bars
-ax.bar(
-    [i - width/2 for i in x],
-    pivot_df['Younger'],
-    width=width,
-    color=colors['Younger'],
-    label='Younger (<50)'
-)
+if 'Younger' in pivot_df:
+    ax.bar(
+        [i - width/2 for i in x],
+        pivot_df['Younger'],
+        width=width,
+        color=colors['Younger'],
+        label='Younger (<50)'
+    )
 
 # Older bars
-ax.bar(
-    [i + width/2 for i in x],
-    pivot_df['Older'],
-    width=width,
-    color=colors['Older'],
-    label='Older (50+)'
-)
+if 'Older' in pivot_df:
+    ax.bar(
+        [i + width/2 for i in x],
+        pivot_df['Older'],
+        width=width,
+        color=colors['Older'],
+        label='Older (50+)'
+    )
 
 # =========================
-# VALUE LABELS
+# LABELS (LIGHTWEIGHT FIX)
 # =========================
-for i, v in enumerate(pivot_df['Younger']):
-    ax.text(i - width/2, v, f"{v:.2f}", ha='center', fontsize=8)
+for i in x:
+    if 'Younger' in pivot_df:
+        val = pivot_df['Younger'].iloc[i]
+        ax.text(i - width/2, val, f"{val:.2f}", ha='center', fontsize=7)
 
-for i, v in enumerate(pivot_df['Older']):
-    ax.text(i + width/2, v, f"{v:.2f}", ha='center', fontsize=8)
+    if 'Older' in pivot_df:
+        val = pivot_df['Older'].iloc[i]
+        ax.text(i + width/2, val, f"{val:.2f}", ha='center', fontsize=7)
 
 # =========================
 # STYLING
 # =========================
 ax.set_title("Basal Rate by Age Group (Younger vs Older)")
 ax.set_xlabel("Age Group")
-ax.set_ylabel("Average Basal Rate (units/hr)")
-ax.set_xticks(x)
+ax.set_ylabel("Avg Basal Rate")
+ax.set_xticks(list(x))
 ax.set_xticklabels(pivot_df.index)
+
 ax.legend()
 ax.grid(axis='y', alpha=0.3)
 
 plt.tight_layout()
 
+# =========================
+# STREAMLIT OUTPUT (FAST)
+# =========================
 st.pyplot(fig, use_container_width=True)
