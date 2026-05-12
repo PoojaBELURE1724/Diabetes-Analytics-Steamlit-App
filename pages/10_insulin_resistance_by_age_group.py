@@ -10,8 +10,10 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🩺 Diagnostic: Insulin Resistance")
-
+st.markdown(
+    "<h3 style='text-align:center; margin-bottom:5px;'>🩺 Diagnostic: Insulin Resistance</h3>",
+    unsafe_allow_html=True
+)
 # =========================
 # FAST DATA LOADING (IMPORTANT FIX)
 # =========================
@@ -105,7 +107,7 @@ for i in x:
 # =========================
 # STYLING
 # =========================
-ax.set_title("Basal Rate by Age Group (Younger vs Older)")
+#ax.set_title("Basal Rate by Age Group (Younger vs Older)")
 ax.set_xlabel("Age Group")
 ax.set_ylabel("Avg Basal Rate")
 ax.set_xticks(list(x))

@@ -11,7 +11,13 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Risk Matrix: Race × Gender × Age Group")
+# ---------------------------------------------------------
+# TITLE (H3 STYLE)
+# ---------------------------------------------------------
+st.markdown(
+    "<h3 style='text-align:center; margin-bottom:5px;'>📊 Risk Matrix: Race × Gender × Age Group</h3>",
+    unsafe_allow_html=True
+)
 
 # ---------------------------------------------------------
 # LOAD DATA
@@ -25,7 +31,7 @@ def load_data():
 df = load_data()
 
 # ---------------------------------------------------------
-# RISK CATEGORY (based on glucose)
+# RISK CATEGORY
 # ---------------------------------------------------------
 def risk_category(x):
     if x < 70:
@@ -48,7 +54,7 @@ age_labels = ["0-18", "19-35", "36-50", "51-65", "65+"]
 df["age_group"] = pd.cut(df["age"], bins=age_bins, labels=age_labels)
 
 # ---------------------------------------------------------
-# CREATE RISK SCORE (numeric for heatmap)
+# RISK SCORE MAP
 # ---------------------------------------------------------
 risk_map = {
     "Hypoglycemia": 1,
@@ -60,13 +66,12 @@ risk_map = {
 df["risk_score"] = df["risk"].map(risk_map)
 
 # ---------------------------------------------------------
-# AGGREGATE: DISTINCT PATIENT RISK SCORE
+# AGGREGATION
 # ---------------------------------------------------------
 matrix = df.groupby(
     ["race", "gender", "age_group"]
 )["risk_score"].mean().reset_index()
 
-# Pivot for heatmap (Race × Gender, averaged across age groups)
 heatmap_data = matrix.pivot_table(
     index=["race", "gender"],
     columns="age_group",
@@ -76,33 +81,71 @@ heatmap_data = matrix.pivot_table(
 # ---------------------------------------------------------
 # CENTER LAYOUT
 # ---------------------------------------------------------
-left, center, right = st.columns([1, 2, 1])
+left, center, right = st.columns([1, 3, 1])
 
 with center:
 
     with st.container(border=True):
 
-        st.markdown(
-            "<h3 style='text-align:center;'>🔥 Risk Matrix (Race × Gender × Age Group)</h3>",
-            unsafe_allow_html=True
-        )
+        fig, ax = plt.subplots(figsize=(16, 12))  # 🔥 BIGGER HEATMAP
 
-        fig, ax = plt.subplots(figsize=(9, 5))
-
-        sns.heatmap(
+        hm = sns.heatmap(
             heatmap_data,
             annot=True,
-            cmap="RdYlGn_r",   # green = low risk, red = high risk
-            linewidths=0.5,
+            fmt=".2f",
+            cmap="RdYlGn_r",
+            linewidths=0.7,
             linecolor="white",
-            cbar_kws={"label": "Risk Level (1=Low, 4=High)"},
+            annot_kws={
+                "size": 16,
+                "weight": "bold",
+                "color": "black"
+            },
+            cbar_kws={
+                "label": "Risk Level (1=Low, 4=High)",
+                "shrink": 0.9
+            },
             ax=ax
         )
 
-        ax.set_xlabel("Age Group")
-        ax.set_ylabel("Race / Gender")
+        # -----------------------------------------------------
+        # COLORBAR (LEGEND FONT FIX)
+        # -----------------------------------------------------
+        cbar = hm.collections[0].colorbar
+        cbar.ax.tick_params(labelsize=14)
+        cbar.set_label(
+            "Risk Level (1=Low, 4=High)",
+            fontsize=18,
+            fontweight="bold"
+        )
+
+        # -----------------------------------------------------
+        # AXIS LABELS (BOLD)
+        # -----------------------------------------------------
+        ax.set_xlabel("Age Group", fontsize=22, fontweight="bold")
+        ax.set_ylabel("Race / Gender", fontsize=22, fontweight="bold")
+
+        # -----------------------------------------------------
+        # TICK LABELS (BOLD)
+        # -----------------------------------------------------
+        ax.tick_params(axis='x', labelsize=18)
+        ax.tick_params(axis='y', labelsize=18)
+
+        for label in ax.get_xticklabels():
+            label.set_fontweight("bold")
+
+        for label in ax.get_yticklabels():
+            label.set_fontweight("bold")
+
         ax.set_title("")
 
         plt.tight_layout()
 
-        st.pyplot(fig)
+        st.pyplot(fig, use_container_width=True)
+
+# ---------------------------------------------------------
+# DATA TABLE
+# ---------------------------------------------------------
+with st.expander("📊 View Aggregated Risk Matrix Data"):
+
+    st.dataframe(heatmap_data, use_container_width=True)

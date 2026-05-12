@@ -10,7 +10,11 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Gender-wise Hourly Glucose Trend Dashboard")
+#st.title("📊 Gender-wise Hourly Glucose Trend Dashboard")
+st.markdown(
+    "<h3 style='text-align:center; margin-bottom:5px;'>📊 Race-wise Hourly Glucose Trend Dashboard</h3>",
+    unsafe_allow_html=True
+)
 
 # =========================================================
 # LOAD DATA
@@ -56,34 +60,11 @@ hourly_trend = (
 )
 
 # =========================================================
-# KPI SECTION
-# =========================================================
-with st.container(border=True):
-    st.subheader("📌 Key Insights")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.metric("Active Gender Groups", len(hourly_trend.columns))
-
-    with col2:
-        st.metric(
-            "Peak Glucose Hour",
-            int(hourly_trend.mean(axis=1).idxmax())
-        )
-
-    with col3:
-        st.metric(
-            "Max Glucose Level",
-            f"{hourly_trend.max().max():.1f}"
-        )
-
-# =========================================================
 # CHART SECTION (GENDER COLOR ENCODING)
 # =========================================================
 with st.container(border=True):
 
-    st.subheader("📈 Hourly Glucose Pattern by Gender")
+    #st.subheader("📈 Hourly Glucose Pattern by Gender")
 
     fig, ax = plt.subplots(figsize=(9, 4.8))
 

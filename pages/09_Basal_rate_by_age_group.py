@@ -2,7 +2,11 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.title("🩺 Diagnostic: Basal Rate by Age Group")
+#st.title("🩺 Diagnostic: Basal Rate by Age Group")
+st.markdown(
+    "<h3 style='margin-bottom:5px;'>🩺 Diagnostic: Basal Rate by Age Group</h3>",
+    unsafe_allow_html=True
+)
 
 # =========================
 # FAST DATA LOADING (IMPORTANT FIX)
@@ -45,7 +49,7 @@ ax.bar(
 for i, v in enumerate(basal_avg['basal_rate']):
     ax.text(i, v, f"{v:.2f}", ha='center', fontsize=8)
 
-ax.set_title("Average Basal Rate by Age Group")
+#ax.set_title("Average Basal Rate by Age Group")
 ax.set_xlabel("Age Group")
 ax.set_ylabel("Basal Rate (units/hr)")
 ax.grid(axis='y', alpha=0.2)

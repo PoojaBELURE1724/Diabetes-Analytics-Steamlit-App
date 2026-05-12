@@ -4,15 +4,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # ---------------------------------------------------------
-# PAGE CONFIG (wide = single dashboard feel)
+# PAGE CONFIG
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Health Correlation Dashboard",
     layout="wide"
 )
 
-st.title("🔥 Health Variable Correlation Dashboard")
-
+#st.title("🔥 Health Variable Correlation Dashboard")
+st.markdown(
+    "<h3 style='text-align:center; margin-bottom:5px;'>🔥 Health Variable Correlation Dashboard</h3>",
+    unsafe_allow_html=True
+)
 # ---------------------------------------------------------
 # LOAD DATA
 # ---------------------------------------------------------
@@ -39,38 +42,37 @@ corr_cols = [
 corr = df[corr_cols].corr()
 
 # ---------------------------------------------------------
-# SINGLE PAGE DASHBOARD LAYOUT (CENTERED)
+# CENTERED LAYOUT
 # ---------------------------------------------------------
-col1, col2, col3 = st.columns([1, 3, 1])
+col1, col2, col3 = st.columns([1, 3.5, 1])
 
 with col2:
 
-    st.subheader("Correlation Heatmap")
-
-    fig, ax = plt.subplots(figsize=(5.5, 4.5))  # compact size
+    fig, ax = plt.subplots(figsize=(12, 10))  # 🔥 BIGGER CHART
 
     sns.heatmap(
         corr,
         annot=True,
         fmt=".2f",
         cmap="coolwarm",
-        linewidths=0.4,
-        annot_kws={"size": 8},   # smaller annotation font
+        linewidths=0.5,
+        annot_kws={"size": 11, "fontweight": "bold"},  # 🔥 BIG LABELS
         ax=ax
     )
 
-    ax.set_title(
-        "Health Variable Correlation",
-        fontsize=11,
-        fontweight='bold'
-    )
+    # bigger axis labels
+    ax.tick_params(axis='x', labelsize=12, rotation=30)
+    ax.set_xticklabels(ax.get_xticklabels(), fontweight='bold')
+    ax.tick_params(axis='y', labelsize=12)
+    ax.set_yticklabels(ax.get_yticklabels(), fontweight='bold')
 
     plt.tight_layout()
 
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=True)
 
 # ---------------------------------------------------------
-# OPTIONAL DATA VIEW
+# OPTIONAL TABLE
 # ---------------------------------------------------------
 with st.expander("View Correlation Table"):
+
     st.dataframe(corr, use_container_width=True)

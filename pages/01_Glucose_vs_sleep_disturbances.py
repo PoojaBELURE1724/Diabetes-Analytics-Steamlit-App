@@ -1,6 +1,5 @@
 # =========================================================
-# pages/1_Dashboard.py
-# STREAMLIT VERSION
+# COMPACT NO-SCROLL STREAMLIT DASHBOARD
 # =========================================================
 
 import streamlit as st
@@ -12,17 +11,25 @@ import matplotlib.pyplot as plt
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Glucose vs Sleep Disturbance",
-    layout="wide"
+    #layout="wide"
 )
 
-st.title("📊 Average Glucose vs Sleep Disturbance %")
+# ---------------------------------------------------------
+# TITLE (SHIFTED UP)
+# ---------------------------------------------------------
+st.markdown(
+    "<h3 style='margin-top:0px;'>📊 Average Glucose vs Sleep Disturbance</h3>",
+    unsafe_allow_html=True
+)
 
 # ---------------------------------------------------------
 # LOAD DATA
 # ---------------------------------------------------------
 @st.cache_data
 def load_data():
-    return pd.read_excel("Team6_DataDynamos_Python-Hackathon_MAY2026_V2.xlsx")
+    return pd.read_excel(
+        "Team6_DataDynamos_Python-Hackathon_MAY2026_V2.xlsx"
+    )
 
 df = load_data()
 
@@ -40,10 +47,12 @@ df['Age_Group'] = pd.cut(
 # ---------------------------------------------------------
 st.sidebar.header("Filters")
 
+age_groups = ['0-20', '21-40', '41-60', '61-80']
+
 selected_groups = st.sidebar.multiselect(
     "Select Age Groups",
-    options=df['Age_Group'].dropna().unique(),
-    default=df['Age_Group'].dropna().unique()
+    options=age_groups,
+    default=age_groups
 )
 
 filtered_df = df[df['Age_Group'].isin(selected_groups)]
@@ -62,30 +71,29 @@ sleep_disturbance = (
 )
 
 # ---------------------------------------------------------
-# KPIs
+# KPI ROW (VERY COMPACT)
 # ---------------------------------------------------------
-col1, col2 = st.columns(2)
+kpi1, kpi2 = st.columns(2)
 
-with col1:
+with kpi1:
     st.metric(
-        "Overall Avg Glucose",
+        "Avg Glucose",
         f"{filtered_df['glucose'].mean():.1f}"
     )
 
-with col2:
+with kpi2:
     st.metric(
-        "Avg Sleep Disturbance %",
+        "Sleep %",
         f"{filtered_df['%_with_sleep_disturbances'].mean():.1f}%"
     )
 
 # ---------------------------------------------------------
-# CHART CONTAINER
+# CHART SECTION
 # ---------------------------------------------------------
 with st.container(border=True):
 
-    st.subheader("Average Glucose vs Sleep Disturbance by Age Group")
-
-    fig, ax1 = plt.subplots(figsize=(10, 6))
+    # SMALLER HEIGHT TO FIT FULL SCREEN
+    fig, ax1 = plt.subplots(figsize=(6.8, 3.0))
 
     # -----------------------------------------------------
     # BAR CHART
@@ -94,24 +102,25 @@ with st.container(border=True):
         avg_glucose.index.astype(str),
         avg_glucose.values,
         color='pink',
-        width=0.6
+        width=0.5
     )
 
-    ax1.set_xlabel("Age Group", fontsize=12, fontweight='bold')
-    ax1.set_ylabel("Average Glucose", fontsize=12, fontweight='bold')
+    ax1.set_xlabel("Age Group", fontsize=8)
+    ax1.set_ylabel("Avg Glucose", fontsize=8)
 
-    # Bar labels
+    # Compact labels
     for bar in bars:
+
         height = bar.get_height()
 
         ax1.text(
             bar.get_x() + bar.get_width() / 2,
-            height - 8,
+            height - 5,
             f'{height:.1f}',
             ha='center',
             va='top',
-            fontsize=10,
-            color='white',
+            fontsize=6,
+            color='black',
             fontweight='bold'
         )
 
@@ -124,70 +133,47 @@ with st.container(border=True):
         sleep_disturbance.index.astype(str),
         sleep_disturbance.values,
         marker='o',
-        color='maroon',
-        linewidth=3,
-        markersize=10
+        color='red',
+        linewidth=1.2,
+        markersize=4
     )
 
-    ax2.set_ylabel(
-        "Sleep Disturbance %",
-        fontsize=12,
-        fontweight='bold'
-    )
+    ax2.set_ylabel("Sleep %", fontsize=8)
 
-    # -----------------------------------------------------
-    # ANNOTATIONS
-    # -----------------------------------------------------
+    # Compact annotations
     x_positions = list(range(len(sleep_disturbance)))
 
-    for i, (x, y) in enumerate(
-        zip(x_positions, sleep_disturbance.values)
-    ):
+    for x, y in zip(x_positions, sleep_disturbance.values):
 
         ax2.annotate(
             f'{y:.1f}%',
             xy=(x, y),
-            xytext=(x + 0.10, y + 1.5),
-            fontsize=10,
-            color='white',
-            fontweight='bold',
-            arrowprops=dict(
-                arrowstyle='->',
-                color='steelblue',
-                lw=1.5
-            ),
-            bbox=dict(
-                boxstyle='round,pad=0.3',
-                facecolor='steelblue',
-                edgecolor='white',
-                alpha=0.9
-            )
+            xytext=(0, 4),
+            textcoords='offset points',
+            ha='center',
+            fontsize=5.5,
+            color='red'
         )
 
     # -----------------------------------------------------
-    # TITLE + GRID
+    # STYLING
     # -----------------------------------------------------
-    plt.title(
-        "Average Glucose vs Sleep Disturbance %",
-        fontsize=16,
-        fontweight='bold'
-    )
-
     ax1.grid(
         axis='y',
         linestyle='--',
-        alpha=0.4
+        alpha=0.2
     )
 
-    plt.tight_layout()
+    ax1.tick_params(axis='x', labelsize=7)
+    ax1.tick_params(axis='y', labelsize=7)
+    ax2.tick_params(axis='y', labelsize=7)
 
-    # -----------------------------------------------------
-    # STREAMLIT DISPLAY
-    # -----------------------------------------------------
-    st.pyplot(fig, use_container_width=True)
+    plt.tight_layout(pad=0.5)
+
+    st.pyplot(fig)
 
 # ---------------------------------------------------------
-# DATA TABLE
+# OPTIONAL TABLE
 # ---------------------------------------------------------
 with st.expander("View Aggregated Data"):
 
@@ -196,4 +182,33 @@ with st.expander("View Aggregated Data"):
         "Sleep Disturbance %": sleep_disturbance
     })
 
-    st.dataframe(summary_df)
+    st.dataframe(
+        summary_df,
+        use_container_width=True
+    )
+
+# ---------------------------------------------------------
+# REDUCE KPI SIZE
+# ---------------------------------------------------------
+st.markdown("""
+<style>
+
+/* Reduce KPI container size */
+div[data-testid="stMetric"] {
+    background-color: transparent;
+    padding: 0.2rem 0.2rem;
+    border-radius: 6px;
+}
+
+/* KPI label */
+div[data-testid="stMetricLabel"] {
+    font-size: 12px;
+}
+
+/* KPI value */
+div[data-testid="stMetricValue"] {
+    font-size: 20px;
+}
+
+</style>
+""", unsafe_allow_html=True)

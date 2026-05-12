@@ -10,8 +10,33 @@ st.set_page_config(
     layout="wide"
 )
 
+# ---------------------------------------------------------
+# SMALL KPI CSS
+# ---------------------------------------------------------
+st.markdown("""
+<style>
+
+div[data-testid="stMetric"] {
+    padding: 0.2rem 0.2rem;
+    border-radius: 6px;
+}
+
+div[data-testid="stMetricLabel"] {
+    font-size: 12px;
+}
+
+div[data-testid="stMetricValue"] {
+    font-size: 20px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# TITLE
+# ---------------------------------------------------------
 st.markdown(
-    "<h1 style='text-align: center;'>🩸 Distinct Patient Distribution by Blood Sugar Level</h1>",
+    "<h3 style='text-align: center; margin-bottom: 0.2rem;'>🩸 Distinct Patient Distribution by Blood Sugar Level</h3>",
     unsafe_allow_html=True
 )
 
@@ -31,12 +56,7 @@ df = load_data()
 # ---------------------------------------------------------
 bins = [0, 70, 140, 200, 500]
 
-labels = [
-    'Low',
-    'Normal',
-    'High',
-    'Very High'
-]
+labels = ['Low', 'Normal', 'High', 'Very High']
 
 df['Blood_Sugar_Category'] = pd.cut(
     df['glucose'],
@@ -72,26 +92,22 @@ with col2:
     )
 
 # ---------------------------------------------------------
-# PIE CHART (CENTERED)
+# WIDE PIE CHART SECTION
 # ---------------------------------------------------------
-left, center, right = st.columns([1, 2, 1])
+left, center, right = st.columns([0.5, 3, 0.5])
 
 with center:
 
     with st.container(border=True):
 
-        st.markdown(
-            "<h3 style='text-align:center;'>🩸 Blood Sugar Distribution</h3>",
-            unsafe_allow_html=True
-        )
-
-        fig, ax = plt.subplots(figsize=(5.5, 5.5))
+        # ✔ WIDER FIGURE
+        fig, ax = plt.subplots(figsize=(8, 5.5))
 
         colors = [
-            'Orange',   # Low
-            'Green',   # Normal
-            'Tomato',   # High
-            'Brown'    # Very High
+            'Orange',
+            'Green',
+            'Tomato',
+            'Brown'
         ]
 
         wedges, texts, autotexts = ax.pie(
@@ -100,11 +116,14 @@ with center:
             autopct='%1.1f%%',
             startangle=90,
             colors=colors,
-            textprops={'fontsize': 10, 'fontweight': 'bold'},
+            textprops={
+                'fontsize': 10,
+                'fontweight': 'bold'
+            },
             pctdistance=0.75
         )
 
-        # Format percentage labels
+        # Percentage styling
         for autotext in autotexts:
             autotext.set_color("white")
             autotext.set_fontsize(9)

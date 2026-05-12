@@ -1,6 +1,33 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+st.markdown("""
+<style>
+
+/* KPI container */
+div[data-testid="stMetric"] {
+    padding: 0.1rem 0.1rem;
+}
+
+/* KPI label (title text) */
+div[data-testid="stMetricLabel"] {
+    font-size: 11px !important;
+    font-weight: 500;
+}
+
+/* KPI value (big number) */
+div[data-testid="stMetricValue"] {
+    font-size: 16px !important;
+    font-weight: 600;
+}
+
+/* KPI delta (if any) */
+div[data-testid="stMetricDelta"] {
+    font-size: 11px !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # =========================================================
 # PAGE CONFIG
@@ -10,7 +37,11 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Age-wise Hourly Glucose Trend Dashboard")
+#st.title("📊 Age-wise Hourly Glucose Trend Dashboard")
+st.markdown(
+    "<h3 style='text-align:center; margin-bottom:5px;'>📊 Age-wise Hourly Glucose Trend Dashboard</h3>",
+    unsafe_allow_html=True
+)
 
 # =========================================================
 # LOAD DATA
@@ -62,7 +93,10 @@ hourly_trend = (
 # KPI SECTION
 # =========================================================
 with st.container(border=True):
-    st.subheader("📌 Key Insights")
+    st.markdown(
+    "<h4 style='margin-bottom:5px;'>📌 Key Insights</h4>",
+    unsafe_allow_html=True
+)
 
     col1, col2, col3 = st.columns(3)
 

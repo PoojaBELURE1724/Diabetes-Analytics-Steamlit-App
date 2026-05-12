@@ -1,6 +1,33 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+st.markdown("""
+<style>
+
+/* KPI container */
+div[data-testid="stMetric"] {
+    padding: 0.1rem 0.1rem;
+}
+
+/* KPI label (title text) */
+div[data-testid="stMetricLabel"] {
+    font-size: 11px !important;
+    font-weight: 500;
+}
+
+/* KPI value (big number) */
+div[data-testid="stMetricValue"] {
+    font-size: 16px !important;
+    font-weight: 600;
+}
+
+/* KPI delta (if any) */
+div[data-testid="stMetricDelta"] {
+    font-size: 11px !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # =========================================================
 # PAGE CONFIG
@@ -10,7 +37,11 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Race-wise Hourly Glucose Trend Dashboard")
+#st.title("📊 Race-wise Hourly Glucose Trend Dashboard")
+st.markdown(
+    "<h3 style='text-align:center; margin-bottom:5px;'>📊 Race-wise Hourly Glucose Trend Dashboard</h3>",
+    unsafe_allow_html=True
+)
 
 # =========================================================
 # LOAD DATA
@@ -58,26 +89,13 @@ hourly_trend = (
 # =========================================================
 # KPI SECTION
 # =========================================================
-with st.container(border=True):
-    st.subheader("📌 Key Insights")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.metric("Active Race Groups", len(hourly_trend.columns))
-
-    with col2:
-        st.metric("Peak Hour", int(hourly_trend.mean(axis=1).idxmax()))
-
-    with col3:
-        st.metric("Max Glucose", f"{hourly_trend.max().max():.1f}")
 
 # =========================================================
 # CHART SECTION (BRIGHT + THIN LINES)
 # =========================================================
 with st.container(border=True):
 
-    st.subheader("📈 Hourly Glucose Pattern by Race Group")
+    #st.subheader("📈 Hourly Glucose Pattern by Race Group")
 
     fig, ax = plt.subplots(figsize=(9, 4.8))
 
@@ -112,8 +130,11 @@ with st.container(border=True):
                 xytext=(0, offsets[i % len(offsets)]),
                 textcoords='offset points',
                 ha='center',
-                fontsize=6,
-                color=colors[i % len(colors)]
+		va='center',   # ✅ vertical alignment fix
+                fontsize=7,
+                color=colors[i % len(colors)],
+		fontweight = 'bold',
+		rotation=30
             )
 
     ax.set_xlabel("Hour of Day")

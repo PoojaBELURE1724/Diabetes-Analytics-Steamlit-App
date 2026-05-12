@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.title("📊 Average Glucose Trend by Hour")
-
+st.markdown(
+    "<h3 style='text-align:center; margin-bottom:5px;'>📊 Average Glucose Trend by Hour</h3>",
+    unsafe_allow_html=True
+)
 # =========================
 # DATA PREPARATION
 # =========================
@@ -29,7 +31,7 @@ ax.plot(
     hourly_glucose.index,
     hourly_glucose.values,
     marker='o',
-    color='#1f2937',   # dark professional color
+    color='red',   # red color
     linewidth=1.5
 )
 
@@ -48,7 +50,6 @@ for x, y in zip(hourly_glucose.index, hourly_glucose.values):
 # =========================
 ax.set_xlabel("Hour of Day")
 ax.set_ylabel("Average Glucose")
-ax.set_title("Average Glucose Trend by Hour")
 ax.set_xticks(range(0, 24))
 ax.grid(alpha=0.3)
 
