@@ -153,14 +153,10 @@ st.markdown("---")
 
 st.subheader("📌 Key Insights")
 
-st.markdown(""" Almost all patients experience glucose variability
-Since counts are:
-
-Low: 24 / 25 patients Normal: 25 / 25 patients High: 25 / 25 patients Very High: 25 / 25 patients
-
-👉 This indicates:
-
-Nearly every patient has experienced all stages of blood sugar fluctuation Strong evidence of high intra-patient variability.
+st.markdown(""" Three categories — Normal, High, and Very High — are essentially equal at 25.3% each.
+Low is slightly smaller at 24.2%, making it the smallest segment.
+The distribution is remarkably even, with all four categories accounting for roughly one quarter of the total each.
+A combined 50.6% of readings fall in concerning ranges (High + Very High), suggesting a significant portion of the population or dataset has elevated blood sugar.
 """)
 
 # ---------------------------------------------------------
