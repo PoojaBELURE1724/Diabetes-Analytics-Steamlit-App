@@ -153,8 +153,14 @@ st.markdown("---")
 
 st.subheader("📌 Key Insights")
 
-st.markdown("""- The dataset includes 25 T1DM patients with an overall average glucose level of 141.4 mg/dL.
-- Nearly 75% of patients fall into the High or Very High glucose categories, indicating widespread hyperglycemia.
+st.markdown(""" Almost all patients experience glucose variability
+Since counts are:
+
+Low: 24 / 25 patients Normal: 25 / 25 patients High: 25 / 25 patients Very High: 25 / 25 patients
+
+👉 This indicates:
+
+Nearly every patient has experienced all stages of blood sugar fluctuation Strong evidence of high intra-patient variability.
 """)
 
 # ---------------------------------------------------------
